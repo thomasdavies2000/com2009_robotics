@@ -46,12 +46,12 @@ class Circle:
         self.rate = rospy.Rate(10) # hz
 
         self.vel_cmd = Twist()
-        self.x = 0.0
-        self.y = 0.0
-        self.theta_z = 0.0
-        self.x0 = 0.0
-        self.y0 = 0.0
-        self.theta_z0 = 0.0
+        # self.x = 0.0
+        # self.y = 0.0
+        # self.theta_z = 0.0
+        self.x0 = self.x
+        self.y0 = self.y
+        self.theta_z0 = self.theta_z
 
         self.ctrl_c = False
         rospy.on_shutdown(self.shutdownhook)
@@ -62,7 +62,7 @@ class Circle:
         self.vel_cmd.linear.x = 0.0 # m/s
         self.vel_cmd.angular.z = 0.0 # rad/s
         
-
+        print(f"current odometry: x = {self.diff_x:.2f} [m], y = {self.diff_y:.2f} [m], yaw = {self.diff_theta:.1f} [degrees]")
         print("stopping the robot")
 
         # publish to the /cmd_vel topic to make the robot stop
@@ -79,7 +79,12 @@ class Circle:
             # print("yaw diff " + str(yaw_diff))
             # print(count)
             # print(self.x)
-            print(f"current odometry: x = {self.x:.3f} m, y = {self.y:.3f} m, theta_z = {self.theta_z:.3f} d")
+            self.diff_x = self.x - self.x0
+            self.diff_y = self.y - self.y0
+            self.diff_theta = (self.theta_z - self.theta_z0) * 180 / 3.14149265
+            if count %10 == 0:
+                print(f"current odometry: x = {self.diff_x:.2f} [m], y = {self.diff_y:.2f} [m], yaw = {self.diff_theta:.1f} [degrees]")
+            
             if yaw_diff <0.1 and yaw_diff > -0.1 and count >50:
                 count = 0
                 loop_count +=1
