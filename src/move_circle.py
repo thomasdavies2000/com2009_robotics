@@ -73,7 +73,7 @@ class Circle:
     def main_loop(self):
         count = 0
         loop_count = 0
-        while not self.ctrl_c:
+        while not self.ctrl_c and loop_count < 2:
             count+=1
             yaw_diff = abs(self.theta_z0 - self.theta_z)
             print("yaw diff " + str(yaw_diff))
@@ -82,7 +82,7 @@ class Circle:
             if yaw_diff <0.1 and yaw_diff > -0.1 and count >50:
                 count = 0
                 loop_count +=1
-                print("yoyo")
+                
             
             # specify the radius of the circle:
             path_rad = 0.5 # m
