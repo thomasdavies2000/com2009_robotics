@@ -76,9 +76,10 @@ class Circle:
         while not self.ctrl_c and loop_count < 2:
             count+=1
             yaw_diff = abs(self.theta_z0 - self.theta_z)
-            print("yaw diff " + str(yaw_diff))
-            print(count)
-            print(self.x)
+            # print("yaw diff " + str(yaw_diff))
+            # print(count)
+            # print(self.x)
+            print(f"current odometry: x = {self.x:.3f} m, y = {self.y:.3f} m, theta_z = {self.theta_z:.3f} d")
             if yaw_diff <0.1 and yaw_diff > -0.1 and count >50:
                 count = 0
                 loop_count +=1
